@@ -1,0 +1,49 @@
+﻿@model List<Matisoft.Models.SearchingImage>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.1/axios.min.js"></script>
+<table class="table">
+    <thead>
+       <tr>
+           <th>Id</th>
+           <th>Url</th>
+           <th>Download</th>
+       </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var filenameWithResolution = @item.ImageUrl.Split('/').LastOrDefault(); // Get the filename with resolution
+            var filename = filenameWithResolution.Substring(filenameWithResolution.IndexOf('-') + 1);
+           // Output: Flowerposter2.jpg
+            <tr>
+                <td>@item.Id</td>
+                <td>
+                    <a href="@item.ImageUrl" download><img src="@item.ImageUrl" style="height:50px; width:50px;" /></a>
+                </td>
+                <td>
+                    @* <a href="#" id="downloadButton" class="download-btn" onclick="startDownload(@item.ImageUrl, @filename)">Download Image</a> *@
+
+                    <button type="button" onclick="startDownload('@item.ImageUrl', '@filename')">Download</button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+ <script>
+        async function startDownload(urlname, imageName)
+        {
+            let results = await axios({
+                url: urlname,
+                method: 'GET',
+                responseType: 'blob'
+            })
+            let hidden_a = document.createElement('a');
+            hidden_a.href = window.URL.createObjectURL(new Blob([results.data]));
+            hidden_a.setAttribute('download', imageName);
+            document.body.appendChild(hidden_a);
+            hidden_a.click();
+        }
+        
+</script>
+</table>
