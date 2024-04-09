@@ -19,7 +19,8 @@ namespace Matisoft.Controllers
         private readonly string _cx = "c0a1dc4bad20a495b";
         private readonly IConfiguration _configuration;
 
-        
+        // Nandlal Prasad
+
         public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
@@ -69,7 +70,7 @@ namespace Matisoft.Controllers
                             con.Close();
                         }
                     }
-                    
+
                     return RedirectToAction("Index", imageUrls);
                 }
                 catch (HttpRequestException e)
